@@ -28,8 +28,11 @@ validate(){
     fi
 }
 
-dnf install mysql-server -y  &>>$logfile
-validate $? "mysql-server installation is"
+# dnf install mysql-server -y  &>>$logfile
+# validate $? "mysql-server installation is"
+
+ dnf install mysql-server -y &>>$logfile
+ VALIDATE $? "Installing MySQL Server"
 
 systemctl start mysqld &>>$logfile
 validate $? "Begining Mysqlserver is"
