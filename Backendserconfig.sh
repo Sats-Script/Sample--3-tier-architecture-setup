@@ -53,12 +53,12 @@ fi
  unzip /tmp/backend.zip
 
  npm install &>>$logfile
- cp /home/ec2-user/expense-shell/backend.service  /etc/systemd/system/backend.service
+ cp /home/ec2-user/Sample--3-tier-architecture-setup/backend.service  /etc/systemd/system/backend.service
 
  dnf install mysql -y &>>$logfile
 validate $? "Installing MySQL Client"
 
-mysql -h mysql.daws81s.online -uroot -pExpense@1 < /app/schema/backend.sql &>>$logfile
+mysql -h mysql.heyitsmine.store -u root -pExpense@1 < /app/schema/backend.sql &>>$logfile
 validate $? "Schema loading"
 
 systemctl daemon-reload &>>$logfile
