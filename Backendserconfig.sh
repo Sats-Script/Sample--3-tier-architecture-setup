@@ -42,21 +42,21 @@ then
  rm -rf /app/*
  unzip /tmp/backend.zip
 
- npm install &>>logfile
+ npm install &>>$logfile
  cp /home/ec2-user/expense-shell/backend.service  /etc/systemd/system/backend.service
 
- dnf install mysql -y &>>$LOG_FILE
+ dnf install mysql -y &>>$logfile
 VALIDATE $? "Installing MySQL Client"
 
-mysql -h mysql.daws81s.online -uroot -pExpense@1 < /app/schema/backend.sql &>>$LOG_FILE
+mysql -h mysql.daws81s.online -uroot -pExpense@1 < /app/schema/backend.sql &>>$logfile
 VALIDATE $? "Schema loading"
 
-systemctl daemon-reload &>>$LOG_FILE
+systemctl daemon-reload &>>$logfile
 VALIDATE $? "Daemon reload"
 
-systemctl enable backend &>>$LOG_FILE
+systemctl enable backend &>>$logfile
 VALIDATE $? "Enabled backend"
 
-systemctl restart backend &>>$LOG_FILE
+systemctl restart backend &>>$logfile
 VALIDATE $? "Restarted Backend"
 
