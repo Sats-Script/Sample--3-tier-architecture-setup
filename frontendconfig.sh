@@ -1,7 +1,7 @@
 #!/bin/bash
 
 Logfold="/var/log/expense_msg"
-scriptname=$(echo "$0" | cut -d "." f1)
+scriptname=$(echo "$0" | cut -d "." -f1)
 time=$(date +%Y-%m-%d-%H-%M)
 logfile="$Logfold/$scriptname-$time.log"
 mkdir -p $Logfold
