@@ -1,6 +1,6 @@
 #!/bin/bash
 
-Logfol="var/log/expenseapp-msgs"
+Logfol="var/log/expenseapp"
 scriptname=$(echo "$0" | cut -d "." -f1)
 time=$(date +%Y-%m-%d-%H-%M)
 logfile="$Logfol/$scriptname-$time.log"
