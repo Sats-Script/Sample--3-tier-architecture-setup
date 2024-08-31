@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# Logfol="var/log/expenseapp"
-# scriptname=$(echo "$0" | cut -d "." -f1)
-# time=$(date +%Y-%m-%d-%H-%M)
-# logfile="$Logfol/$scriptname-$time.log"
-# mkdir -p $Logfol
+Logfol="var/log/expenseapp"
+scriptname=$(echo "$0" | cut -d "." -f1)
+time=$(date +%Y-%m-%d-%H-%M)
+logfile="$Logfol/$scriptname-$time.log"
+mkdir -p $Logfol
 
-LOGS_FOLDER="/var/log/expense"
-SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
-TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S)
-logfile="$LOGS_FOLDER/$SCRIPT_NAME-$TIMESTAMP.log"
-mkdir -p $LOGS_FOLDER
+# LOGS_FOLDER="/var/log/expense"
+# SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
+# TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S)
+# logfile="$LOGS_FOLDER/$SCRIPT_NAME-$TIMESTAMP.log"
+# mkdir -p $LOGS_FOLDER
 
 Uid=$(id -u)
 R="\e[31m"
@@ -28,17 +28,17 @@ then
 validate(){
     if [ $1 -ne 0 ]
     then
-    echo -e "$G $2  ... SUCCESS $N"
+    echo -e "$G $2  ... FAILED $N"
     else
-    echo  -e "$R $2 ......... FAILED $N"
+    echo  -e "$R $2 ......... SUCCESS $N"
     fi
 }
 
-# dnf install mysql-server -y  &>>$logfile
-# validate $? "mysql-server installation is"
+dnf install mysql-server -y  &>>$logfile
+validate $? "mysql-server installation is"
 
- dnf install mysql-server -y 
- validate $? "Installing MySQL Server"
+#  dnf install mysql-server -y 
+#  validate $? "Installing MySQL Server"
 
 systemctl start mysqld &>>$logfile
 validate $? "Begining Mysqlserver is"
