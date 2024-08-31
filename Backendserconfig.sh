@@ -19,6 +19,15 @@ then
  echo -e "$G Script is running as root user now $N" |tee -a $logfile
  fi
 
+ validate(){
+    if [ $1 -ne 0 ]
+    then
+    echo -e "$R $2  ... FAILED $N"
+    else
+    echo  -e "$G $2 ......... SUCCESS $N"
+    fi
+}
+
  dnf module disable nodejs:18 -y &>> $logfile
 
  dnf module enable nodejs:20 -y &>> $logfile
@@ -46,17 +55,17 @@ then
  cp /home/ec2-user/expense-shell/backend.service  /etc/systemd/system/backend.service
 
  dnf install mysql -y &>>$logfile
-VALIDATE $? "Installing MySQL Client"
+validate $? "Installing MySQL Client"
 
 mysql -h mysql.daws81s.online -uroot -pExpense@1 < /app/schema/backend.sql &>>$logfile
-VALIDATE $? "Schema loading"
+validate $? "Schema loading"
 
 systemctl daemon-reload &>>$logfile
-VALIDATE $? "Daemon reload"
+validate $? "Daemon reload"
 
 systemctl enable backend &>>$logfile
-VALIDATE $? "Enabled backend"
+validate $? "Enabled backend"
 
 systemctl restart backend &>>$logfile
-VALIDATE $? "Restarted Backend"
+validate $? "Restarted Backend"
 

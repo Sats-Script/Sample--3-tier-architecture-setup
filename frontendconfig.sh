@@ -22,9 +22,9 @@ then
 validate(){
     if [ $1 -ne 0 ]
     then
-    echo "$G $2  ... SUCCESS $N"
+    echo "$R $2  ... FAILED $N"
     else
-    echo "$R $2 ......... FAILED $N"
+    echo "$G $2 ......... SUCCESS $N"
     fi
 }
 
