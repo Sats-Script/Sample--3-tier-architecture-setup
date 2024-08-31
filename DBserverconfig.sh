@@ -1,83 +1,52 @@
 #!/bin/bash
 
+Logfol="var/log/expenseapp-msgs"
+scriptname=$(echo "$0" | cut -d "." f1)
+time=$(date +%Y-%m-%d-%H-%M)
+logfile="$Logfol/$scriptname-$time.log"
+mkdir -p $Logfol
+
 Uid=$(id -u)
 R="\e[31m"
 G="\e[32m"
 N="\e[0m"
 Y="\e[33m"
 
-
-# read pkg
-# pack1=mysql
-# pack2=nodejs
-# pack3=nginx
-
-# if [ "$pkg" = "$pack1" ]
-# then 
-# echo -e "$G $pkg Installing $N"
-# else
-# if test "$pkg" = "$pack2"
-# then
-# echo  -e "$G $pkg Installing $N"
-# else
-# if [[ "$pkg" == "$pack3" ]]
-# then
-# echo  -e "$G $pkg Installing $N"
-# else
-# echo -e "$R This Script wont work for entered package $N"
-# fi
-# fi
-# fi
-
-
+if [ $Uid -ne 0 ]
+then
+ echo -e "$R please run script as root user$N"
+ else
+ echo -e "$G Script is running as root user now $N" |tee -a $logfile
+ fi
 
 validate(){
     if [ $1 -ne 0 ]
     then
-    echo "$G $2  ... SUCCESS $N"
+    echo -e "$G $2  ... SUCCESS $N"
     else
-    echo "$R $2 ......... FAILED $N"
+    echo  -e "$R $2 ......... FAILED $N"
     fi
 }
 
-check(){
-dnf list installed mysql-server &>> null.txt
-validate $? "mysql-server is not installed"
+dnf install mysql-server -y &>>$logfile
+validate $? "mysql-server installation is"
 
-dnf install mysql-server -y
-validate $? "mysql-server"
-systemctl start mysqld
-systemctl enable mysqld
-mkdir -p /app
-VALIDATE $? "Creating /app folder"
+systemctl start mysqld &>>$logfile
+validate $? "Begining Mysqlserver is"
 
-curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOG_FILE
-VALIDATE $? "Downloading Expense application code"
+systemctl enable mysqld &>>$logfile
+validate $? "Enabling MYSQL is "
 
-cd /app
-rm -rf /app/* # remove the existing code
-unzip /tmp/backend.zip &>>$LOG_FILE
-VALIDATE $? "Extracting backend application code"
-
-mysql -h mysql.heyitsmine.store -uroot < /app/schema/backend.sql &>>$LOG_FILE 
-VALIDATE $? "Schema loading"
-
-systemctl daemon-reload &>>$LOG_FILE
-VALIDATE $? "Daemon reload"
-
-systemctl enable backend &>>$LOG_FILE
-VALIDATE $? "Enabled backend"
-
-systemctl restart backend &>>$LOG_FILE
-VALIDATE $? "Restarted Backend"
-
-}
-
-if [ $Uid -ne 0 ] 
+mysql -h mysql.heyitsmine.store -u root -pExpense@1 -e 'show databases' &>>$logfile
+if [ $? -ne 0 ]
 then
-echo -e " $R Please run script as Sudo user ; $Y current userid is :$Uid "
-exit 1
+echo -e "$Y setting up Mysql root password $N"
+mysql_secure_installation --set-root-pass Expense@1 &>>$logfile
+validate    $?  "Setting up root password is"
 else
-echo -e " $G Script is running now as sudo user  $N " 
-check 
+echo -e "$Y DBroot server is protected with a password $N"
 fi
+
+
+
+
