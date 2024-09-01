@@ -144,7 +144,7 @@ cp /home/ec2-user/Sample--3-tier-architecture-setup/backend.service  /etc/system
 dnf install mysql -y &>>$LOG_FILE
 VALIDATE $? "Installing MySQL Client"
 
-mysql -h mysql.heyitsmine.store -u root -pExpenseApp@1 < /schema/backend.sql &>>$LOG_FILE
+mysql -h mysql.heyitsmine.store -uroot -pExpenseApp@1 < /schema/backend.sql &>>$LOG_FILE
 VALIDATE $? "Schema loading"
 
 systemctl daemon-reload &>>$LOG_FILE
