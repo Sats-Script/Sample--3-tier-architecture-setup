@@ -22,13 +22,13 @@ then
 validate(){
     if [ $1 -ne 0 ]
     then
-    echo "$R $2  ... FAILED $N"
+    echo -e "$R $2  ... FAILED $N"
     else
-    echo "$G $2 ......... SUCCESS $N"
+    echo -e  "$G $2 ......... SUCCESS $N"
     fi
 }
 
- dnf install nginx 
+ dnf install nginx -y
  validate $? "Nginx installation is"
 
  systemctl start nginx &>>$logfile
@@ -47,7 +47,7 @@ cd /usr/share/nginx/html
 unzip /tmp/frontend.zip &>>$logfile
 validate $? "Extract frontend code"
 
-cp /home/ec2-user/expense-shell/expense.conf /etc/nginx/default.d/expense.conf
+cp /home/ec2-user/Sample--3-tier-architecture-setup/expense.conf  /etc/nginx/default.d/expense.conf
 validate $? "Copied expense conf"
 
 systemctl restart nginx &>>$logfile
