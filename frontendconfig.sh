@@ -28,14 +28,14 @@ validate(){
     fi
 }
 
- dnf install nginx &>>$logfile
+ dnf install nginx 
  validate $? "Nginx installation is"
 
- systemctl enable nginx &>>$logfile
-validate $? "Enable Nginx"
+ systemctl start nginx &>>$logfile
+validate $? "start Nginx"
 
-systemctl start nginx &>>$logfile
-validate $? "Start Nginx"
+systemctl enable nginx &>>$logfile
+validate $? "Enable Nginx
 
 rm -rf /usr/share/nginx/html/* &>>$logfile
 validate $? "Removing default website"
