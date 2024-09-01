@@ -47,7 +47,7 @@ cd /usr/share/nginx/html
 unzip /tmp/frontend.zip &>>$logfile
 validate $? "Extract frontend code"
 
-cp /home/ec2-user/Sample--3-tier-architecture-setup/expense.conf  /etc/nginx/default.d/expense.conf
+cp /home/ec2-user/Sample--3-tier-architecture-setup/expense.conf /etc/nginx/default.d/expense.conf
 validate $? "Copied expense conf"
 
 systemctl restart nginx &>>$logfile

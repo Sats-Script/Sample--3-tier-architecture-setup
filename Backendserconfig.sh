@@ -137,7 +137,7 @@ unzip /tmp/backend.zip &>>$LOG_FILE
 VALIDATE $? "Extracting backend application code"
 
 npm install &>>$LOG_FILE
-cp /home/ec2-user/Sample--3-tier-architecture-setup/expense.conf  /etc/nginx/default.d/expense.conf
+cp /home/ec2-user/Sample--3-tier-architecture-setup/backend.service  /etc/systemd/system/backend.service
 
 # load the data before running backend
 
